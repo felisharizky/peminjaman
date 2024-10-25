@@ -14,8 +14,6 @@ class PinjamController extends Controller
      */
     public function index()
     {
-        //
-        // $pinjams = Pinjam::all();
         $pinjams = Pinjam::with('konfirmasi')->get();
         return view('pinjam.index', compact('pinjams'));
     }
@@ -25,10 +23,9 @@ class PinjamController extends Controller
      */
     public function create()
     {
-    $pcs = PC::where('available', true)->get();
+        $pcs = PC::where('available', true)->get();
 
-    // mengirim data pc ke view create
-    return view('pinjam.create', compact('pcs'));
+        return view('pinjam.create', compact('pcs'));
     }
 
     /**
@@ -80,17 +77,13 @@ class PinjamController extends Controller
     public function edit(string $id)
     {
         //
-    //     $pinjam = Pinjam::findOrFail($id); // ngambil data pinjaman bedasarkan id 
-    // return view('pinjam.edit', compact('pinjam')); 
+        $pinjam = Pinjam::findOrFail($id);
 
-    $pinjam = Pinjam::findOrFail($id);
+        if ($pinjam->user_id != auth()->user()->id) {
+            abort(403, 'Anda tidak berhak mengupdate data ini.');
+        }
 
-    // Cek apakah user yang login adalah pemilik data
-    if ($pinjam->user_id != auth()->user()->id) {
-        abort(403, 'Anda tidak berhak mengupdate data ini.');
-    }
-
-    return view('pinjam.edit', compact('pinjam'));
+        return view('pinjam.edit', compact('pinjam'));
     }
 
     /**
@@ -99,26 +92,26 @@ class PinjamController extends Controller
     public function update(Request $request, string $id)
     {
 
-    $pinjam = Pinjam::findOrFail($id);
+        $pinjam = Pinjam::findOrFail($id);
 
-    // Pastikan hanya user yang memiliki peminjaman bisa mengupdate data mereka
-    if ($pinjam->user_id != auth()->user()->id) {
-        abort(403, 'Anda tidak berhak mengupdate data ini.');
-    }
+        // Pastikan hanya user yang memiliki peminjaman bisa mengupdate data mereka
+        if ($pinjam->user_id != auth()->user()->id) {
+            abort(403, 'Anda tidak berhak mengupdate data ini.');
+        }
 
-    $pinjam->tanggalKembali = $request->tanggalKembali;
-    $pinjam->save();
+        $pinjam->tanggalKembali = $request->tanggalKembali;
+        $pinjam->save();
 
-    Konfirmasi::updateOrCreate(
-        ['pinjam_id' => $pinjam->id],
-        ['tanggal_kembali' => $request->tanggalKembali, 'status' => 'pending']
-    );
-    // ngembalin status PC jd tersedia lg 
-    $pc = \App\Models\PC::find($pinjam->pc_id);
-    $pc->available = true;
-    $pc->save();
+        Konfirmasi::updateOrCreate(
+            ['pinjam_id' => $pinjam->id],
+            ['tanggal_kembali' => $request->tanggalKembali, 'status' => 'pending']
+        );
+        // ngembalin status PC jd tersedia lg 
+        $pc = \App\Models\PC::find($pinjam->pc_id);
+        $pc->available = true;
+        $pc->save();
 
-    return redirect()->route('pinjam.index')->with('success', 'Data peminjaman berhasil diupdate.');
+        return redirect()->route('pinjam.index')->with('success', 'Data peminjaman berhasil diupdate.');
     
 }
 
@@ -151,22 +144,5 @@ class PinjamController extends Controller
     {
         //
     }
-
-    public function indexAdmin()
-{
-    // Ambil data pinjaman untuk admin
-    // $pinjams = Pinjam::with('konfirmasi')->where('user_id', auth()->id())->get(); // Pastikan ini sesuai dengan model dan relasi Anda
-    // return view('pinjam.index_admin', compact('pinjams'));
-
-    if (auth()->user()->role === 'admin') {
-        // Admin melihat semua data pinjaman
-        $pinjams = Pinjam::with('konfirmasi')->get();
-    } else {
-        // User biasa hanya melihat data berdasarkan user_id mereka
-        $pinjams = Pinjam::with('konfirmasi')->where('user_id', auth()->id())->get();
-    }
-
-    return view('pinjam.index_admin', compact('pinjams'));
-}
 
 }

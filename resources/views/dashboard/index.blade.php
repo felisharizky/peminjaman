@@ -142,7 +142,7 @@ body::after {
 
 <div class="container">
     <div class="btn-container">
-        <a href="{{ route('pinjam.index_admin') }}" class="btn"><i class="fas fa-clipboard-list"></i> Data Pinjam</a>
+        <a href="{{ route('data.index_admin') }}" class="btn"><i class="fas fa-clipboard-list"></i> Data Pinjam</a>
         <a href="{{ route('pc.index') }}" class="btn"><i class="fas fa-desktop"></i> Data PC</a>
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf

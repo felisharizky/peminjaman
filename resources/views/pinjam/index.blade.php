@@ -10,7 +10,7 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-             background: linear-gradient(135deg, #800000, #ffffff);
+             background: linear-gradient(135deg, #87CEEB, #ffffff);
             background-position: center; 
             background-repeat: no-repeat; 
             margin: 0;
@@ -27,10 +27,10 @@
         }
         h1 {
             text-align: center;
-            color: #7b1616;
+            color: #87CEEB;
         }
        .header {
-            background-color: #7b1616;
+            background-color: #87CEEB;
             color: white;
             padding: 10px;
             display: flex;
@@ -62,7 +62,7 @@
         }
 
         .header-buttons button {
-            background-color: #7b1616;
+            background-color: #87CEEB;
             color: white;
             border: none;
             padding: 10px;

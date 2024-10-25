@@ -16,29 +16,25 @@ class AuthController extends Controller
     
 
     public function authenticate(StoreAuthRequest $request)
-{
-    // Validasi data request
-    $credentials = $request->only('email', 'password');
+    {
+        $credentials = $request->only('email', 'password');
 
-    // Coba autentikasi
-    if (Auth::attempt($credentials)) {
-        // Ambil user yang sedang login
-        $user = Auth::user();
-      
-        \Log::info('User authenticated:', ['user' => $user]);
+        if (Auth::attempt($credentials)) {
 
+            $user = Auth::user();
         
-        if ($user->role == 'admin') {
-            return redirect()->route('dashboard.index');
-        } elseif ($user->role == 'user') {
-            return redirect()->route('pinjam.create');
+            \Log::info('User authenticated:', ['user' => $user]);
+
+            
+            if ($user->role == 'admin') {
+                return redirect()->route('dashboard.index');
+            } elseif ($user->role == 'user') {
+                return redirect()->route('pinjam.create');
+            }
         }
+        return redirect()->back()->withErrors(['login' => 'Email atau Password Salah.']);
     }
 
-    // Jika autentikasi gagal, kembali ke halaman login dengan pesan error
-    return redirect()->back()->withErrors(['login' => 'Email atau Password Salah.']);
-}
-
-}
+};
 
 

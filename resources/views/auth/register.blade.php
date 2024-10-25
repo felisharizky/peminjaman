@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Page</title>
+    <title>Register</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
@@ -13,17 +15,15 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #800000, #ffffff);
+            font-family: 'Roboto', sans-serif;
+            background: radial-gradient(circle, #87CEEB 0%, #ffffff 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
             position: relative;
         }
 
-        /* Background dengan gradasi dan lingkaran */
         body::before {
             content: '';
             position: absolute;
@@ -31,7 +31,7 @@
             right: -150px;
             width: 800px;
             height: 800px;
-            background: linear-gradient(135deg, #800000 30%, #ffffff 70%);
+            background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
             border-radius: 50%;
             z-index: -1;
         }
@@ -43,68 +43,39 @@
             left: -150px;
             width: 600px;
             height: 600px;
-            background: linear-gradient(135deg, #800000 30%, #ffffff 70%);
+            background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
             border-radius: 50%;
             z-index: -1;
-        }
-
-        /* Elemen tambahan di bagian kiri atas */
-        .extra-element {
-            position: absolute;
-            top: -50px;
-            left: -100px;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(128,0,0,0.6) 30%, transparent 70%);
-            border-radius: 50%;
-            z-index: -1;
-        }
-
-        /* Logo di pojok kanan atas */
-        .logo-container {
-            position: absolute;
-            top: 20px; 
-            right: 20px; 
-            display: flex;
-            gap: 10px; 
-        }
-
-        .logo-container img {
-            width: 50px; 
-            height: 50px; 
-            object-fit: contain; 
         }
 
         .container {
             background-color: #ffffff;
-            border-radius: 10px;
+            border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            width: 1000px;
+            width: 900px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0;
             overflow: hidden;
+            position: relative;
         }
 
         .form-container {
             width: 50%;
-            background-color: #ffffff;
-            padding: 40px;
+            padding: 30px;
         }
 
         h2 {
-            font-size: 40px;
-            color: #800000;
+            font-size: 30px;
+            color: #00BFFF;
             margin-bottom: 20px;
             text-align: center;
         }
 
         .form-group {
             margin-bottom: 16px;
-            justify-content: space-between;
             display: flex;
-            position: relative;
+            position: relative; 
         }
 
         .form-group input {
@@ -115,21 +86,38 @@
             border-radius: 10px;
         }
 
+        .form-group.flex-row {
+            display: flex;
+            gap: 10px; /* Menambahkan jarak antara input */
+        }
+
+        .form-group.flex-row input {
+            flex: 1;
+        }
+
         .btn {
             width: 100%;
-            padding: 17px;
-            background-color: #800000;
+            padding: 15px;
+            background-color: #00BFFF;
             color: white;
             font-size: 17px;
             border: none;
-            border-radius: 10px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
             margin-top: 20px;
         }
 
         .btn:hover {
-            background-color: #5a0000;
+            background-color: #93DBFD;
+            box-shadow: 0px 8px 20px rgba(30, 144, 255, 0.3);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 30%;
+            cursor: pointer;
         }
 
         .login-link {
@@ -140,7 +128,7 @@
         }
 
         .login-link a {
-            color: #007BFF;
+            color: #00BFFF;
             text-decoration: none;
         }
 
@@ -150,11 +138,11 @@
 
         .illustration {
             width: 50%;
-            background-color: #800000;
+            background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px;
+            padding: 30px;
         }
 
         .illustration img {
@@ -162,24 +150,9 @@
             height: auto;
             border-radius: 15px;
         }
-
-        .toggle-password {
-            position: absolute; 
-            right: 15px;
-            top: 50%; 
-            transform: translateY(-50%); 
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
-
-<div class="extra-element"></div>
-<div class="logo-container">
-    <img src="{{ asset('storage/images/logopinjam.png') }}" alt="Logo 1"> 
-    <img src="{{ asset('storage/images/LogoPPLG.png') }}" alt="Logo 2"> 
-    <img src="{{ asset('storage/images/LogoNeskar.png') }}" alt="Logo 3"> 
-</div>
 
 <div class="container">
     <div class="form-container">
@@ -187,21 +160,22 @@
 
         <form action="{{ route('register.store') }}" method="POST">
             @csrf
-            <div class="form-group">
+            <!-- Menambahkan wrapper flex-row -->
+            <div class="form-group flex-row">
                 <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
                 <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
             </div>
             <div class="form-group">
                 <input type="email" id="email" name="email" placeholder="Email Address" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <input type="password" id="password" name="password" placeholder="Password" required>
                 <span class="toggle-password" onclick="togglePassword('password', 'togglePasswordIcon')">
                     <i id="togglePasswordIcon" class="fas fa-eye-slash"></i>
                 </span>
             </div>
     
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
                 <span class="toggle-password" onclick="togglePassword('password_confirmation', 'togglePasswordConfirmIcon')">
                     <i id="togglePasswordConfirmIcon" class="fas fa-eye-slash"></i>
@@ -216,9 +190,8 @@
         </div>
     </div>
 
-    <!-- Bagian Kanan: Ilustrasi -->
     <div class="illustration">
-        <img src="{{ asset('storage/images/Donna.jpeg') }}" alt="Gambar Orang">
+        <img src="{{ asset('storage/images/register.png') }}" alt="Gambar Orang">
     </div>
 </div>
 
@@ -226,16 +199,15 @@
     function togglePassword(fieldId, iconId) {
         const passwordField = document.getElementById(fieldId);
         const icon = document.getElementById(iconId);
-        
-        // Toggle the type attribute
+
         if (passwordField.type === "password") {
             passwordField.type = "text";
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            passwordField.type = "password";
             icon.classList.remove('fa-eye-slash');
             icon.classList.add('fa-eye');
+        } else {
+            passwordField.type = "password";
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
         }
     }
 </script>

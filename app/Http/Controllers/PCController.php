@@ -3,32 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\PC;
-use App\Http\Requests\StorePCRequest; // Tambahkan import ini
+use App\Http\Requests\StorePCRequest; 
 use Illuminate\Http\Request;
 
 class PCController extends Controller
 {
-
-
-        // Menampilkan daftar PC (index)
-        public function index()
-        {
-            $pcs = PC::all(); // Ambil semua data PC dari tabel pcs
-            return view('pc.index', compact('pcs')); // Kirim data ke view pc.index
-        }
-    // Menampilkan form untuk menambahkan PC
+    public function index()
+    {
+         $pcs = PC::all(); 
+        return view('pc.index', compact('pcs')); 
+    }
+   
     public function create()
     {
         return view('pc.create');
     }
 
-    // Menyimpan data PC ke dalam database
-    public function store(StorePCRequest $request) // Ganti Request dengan StorePCRequest
+    
+    public function store(StorePCRequest $request) 
     {
-        // Menyimpan PC baru
         PC::create([
             'nama' => $request->nama,
-            'available' => true, // Set default status ketersediaan
+            'available' => true, 
         ]);
 
         return redirect()->route('pc.index')->with('success', 'PC berhasil ditambahkan.');
@@ -36,20 +32,20 @@ class PCController extends Controller
     
 
     public function update(Request $request, $id)
-{
-     $request->validate([
-        'nama' => 'required|string|max:255', // Validasi nama
-        'available' => 'boolean', // Validasi available (optional)
-    ]);
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255', 
+            'available' => 'boolean', 
+        ]);
 
-    $pc = PC::findOrFail($id);
-    $pc->update([
-        'nama' => $request->nama,
-        'available' => $request->available ?? $pc->available, // Gunakan nilai sebelumnya jika available tidak diubah
-    ]);
+        $pc = PC::findOrFail($id);
+        $pc->update([
+            'nama' => $request->nama,
+            'available' => $request->available ?? $pc->available, 
+        ]);
 
-    return redirect()->route('pc.index')->with('success', 'PC berhasil diperbarui.');
-}
+        return redirect()->route('pc.index')->with('success', 'PC berhasil diperbarui.');
+    }
 
 
     public function destroy($id)
@@ -62,10 +58,10 @@ class PCController extends Controller
 
 
     public function edit($id)
-{
-    $pc = PC::findOrFail($id); // Mengambil data PC berdasarkan id
-    return view('pc.edit', compact('pc')); // Mengirim data PC ke view edit
-}
+    {
+        $pc = PC::findOrFail($id); 
+        return view('pc.edit', compact('pc')); 
+    }
 
 
 }
