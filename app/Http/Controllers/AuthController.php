@@ -25,6 +25,9 @@ class AuthController extends Controller
         
             \Log::info('User authenticated:', ['user' => $user]);
 
+           
+            $redirectUrl = session('previous_url', route('pinjam.index')); // Arahkan ke halaman default jika tidak ada URL
+
             
             if ($user->role == 'admin') {
                 return redirect()->route('dashboard.index');

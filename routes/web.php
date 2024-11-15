@@ -1,7 +1,5 @@
 <?php
 
-
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthController;
@@ -15,7 +13,7 @@ use App\Http\Middleware\CheckRole;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome.home');
 });
 
 
@@ -32,7 +30,9 @@ Route::controller(WelcomeController::class)->group(function () {
 
 
 Route::controller(AuthController::class)->group(function () {
+   
     Route::get('/login', 'login')->name('auth.login');
+
     Route::post('/authenticate', 'authenticate')->name('auth.authenticate');
 });
 
@@ -74,7 +74,7 @@ Route::middleware(CheckRole::class.':admin')->group(function () {
 
     Route::controller(DataController::class)->group(function () {
         Route::get('/data/index_admin', 'index')->name('data.index_admin');
-        Route::get('/data/index_admin', 'indexAdmin')->name('data.index_admin');
+        Route::get('/data/index_admin', 'indexAdmin')->name('data.index_admin'); // Ganti rute kedua
         
         
     });

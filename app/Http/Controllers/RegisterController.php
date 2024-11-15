@@ -54,9 +54,6 @@ class RegisterController extends Controller
             'role' => 'user', // Role 'user' ditetapkan di sini
         ]);
 
-        // Login otomatis atau redirect ke halaman lain setelah register
-        auth()->login($user);
-
         // Redirect ke halaman setelah login
         return redirect()->route('auth.login')->with('success', 'Registration successful!');
     

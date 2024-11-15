@@ -4,192 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Roboto', sans-serif;
             background: radial-gradient(circle, #87CEEB 0%, #ffffff 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; 
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
             position: relative;
         }
-
-        body::before {
-            content: '';
+        .bg-circle {
             position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .bg-circle.top-right {
             top: -100px;
             right: -150px;
             width: 800px;
             height: 800px;
             background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
-            border-radius: 50%;
-            z-index: -1;
         }
-
-        body::after {
-            content: '';
-            position: absolute;
+        .bg-circle.bottom-left {
             bottom: -100px;
             left: -150px;
             width: 600px;
             height: 600px;
             background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
-            border-radius: 50%;
-            z-index: -1;
         }
-
-        .container {
+        .container-login {
             background-color: #ffffff;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            width: 900px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 900px;
             overflow: hidden;
-            position: relative;
         }
-
-        .form-container {
-            width: 50%;
-            padding: 40px;
-        }
-
-        h2 {
-            font-size: 40px;
-            color: #00BFFF;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-            display: flex;
-            position: relative; 
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            font-size: 15px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
+        .btn-custom {
             background-color: #00BFFF;
             color: white;
-            font-size: 17px;
-            border: none;
             border-radius: 30px;
-            cursor: pointer;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            margin-top: 20px;
         }
-
-        .btn:hover {
+        .btn-custom:hover {
             background-color: #93DBFD;
             box-shadow: 0px 8px 20px rgba(30, 144, 255, 0.3);
         }
-
         .toggle-password {
             position: absolute;
             right: 10px;
-            top: 30%;
+            top: 50%;
+            transform: translateY(-50%);
             cursor: pointer;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 15px;
-            width: 100%;
-        }
-
-        .login-link a {
-            color: #00BFFF;
-            text-decoration: none;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        .illustration {
-            width: 50%;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-
-        .illustration img {
-            width: 100%;
-            height: auto;
-            border-radius: 15px;
         }
     </style>
 </head>
 <body>
+    <div class="bg-circle top-right"></div>
+    <div class="bg-circle bottom-left"></div>
 
-<div class="container">
-    <div class="form-container">
-        <h2>Login</h2>
-
-        <form action="{{ route('auth.authenticate') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Email Address" required>
+    <div class="container-login d-flex flex-column flex-md-row align-items-center">
+        <div class="form-container p-4 col-md-6">
+            <h2 class="text-center text-primary">Login</h2>
+            <form action="{{ route('auth.authenticate') }}" method="POST">
+                @csrf
+                <div class="mb-3 position-relative">
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required>
+                </div>
+                <div class="mb-3 position-relative">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                    <span class="toggle-password" onclick="togglePassword('password', 'togglePasswordIcon')">
+                        <i id="togglePasswordIcon" class="fas fa-eye-slash"></i>
+                    </span>
+                </div>
+                <button type="submit" class="btn btn-custom w-100">Login</button>
+            </form>
+            <div class="text-center mt-3">
+                <p>Have an account? <a href="/register/create" class="text-primary">Sign Up</a></p>
             </div>
+        </div>
 
-            <div class="form-group" style="position: relative;">
-                <input type="password" id="password" name="password" placeholder="Password" required>
-                <span class="toggle-password" onclick="togglePassword('password', 'togglePasswordIcon')">
-                    <i id="togglePasswordIcon" class="fas fa-eye-slash"></i>
-                </span>
-            </div>
-
-            <button class="btn" type="submit">Login</button>
-        </form>
-        <div class="login-link">
-            <p>Have an account? <a href="/register/create">Sign Up</a></p>
+        <div class="illustration d-none d-md-flex justify-content-center align-items-center col-md-6 p-4">
+            <img src="{{ asset('storage/images/register.png') }}" alt="Gambar Orang" class="img-fluid rounded">
         </div>
     </div>
 
-    <div class="illustration">
-        <img src="{{ asset('storage/images/register.png') }}" alt="Gambar Orang">
-    </div>
-</div>
+    <script>
+        function togglePassword(fieldId, iconId) {
+            const passwordField = document.getElementById(fieldId);
+            const icon = document.getElementById(iconId);
 
-<script>
-    function togglePassword(fieldId, iconId) {
-        const passwordField = document.getElementById(fieldId);
-        const icon = document.getElementById(iconId);
-
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        } else {
-            passwordField.type = "password";
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
         }
-    }
-</script>
-
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

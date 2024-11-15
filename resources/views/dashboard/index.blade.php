@@ -5,152 +5,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-        }
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
-        body::before {
-    content: '';
-    position: absolute;
-    top: -80px;  
-    right: -100px; 
-    width: 600px;  
-    height: 600px;  
-    background: linear-gradient(135deg, #800000 30%, #ffffff 70%);
-    border-radius: 50%;
-    z-index: -1;
-}
-
-body::after {
-    content: '';
-    position: absolute;
-    bottom: -80px;  
-    left: -100px;  
-    width: 500px; 
-    height: 500px;  
-    background: linear-gradient(135deg, #800000 30%, #ffffff 70%);
-    border-radius: 50%;
-    z-index: -1;
-}
-
-/* Elemen tambahan di bagian kiri atas */
-.extra-element {
-    position: absolute;
-    top: -30px;
-    left: -60px;  
-    width: 300px;  
-    height: 300px;  
-    background: radial-gradient(circle, rgba(128,0,0,0.6) 30%, transparent 70%);
-    border-radius: 90%;
-    z-index: -1;
-}
-
-        .header {
-            background-color: #7b1616;
-            color: white;
-            padding: 20px;
-            position: relative; /* Menjadikan container relatif untuk penempatan absolut */
+            background: radial-gradient(circle, #87CEEB 2%, #ffffff 80%);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: center; /* Mengatur agar konten di tengah secara horizontal */
-            /* border-bottom: 5px solid #e60000; */
+            height: 100vh;
+            flex-direction: column;
+        } 
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -150px;
+            width: 800px;
+            height: 800px;
+            background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
+            border-radius: 50%;
+            z-index: -1;
         }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -150px;
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+         .extra-element {
+            position: absolute;
+            top: -50px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(144, 211, 255, 0.6) 30%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px; 
+            padding: 30px; 
+            background-color: white;
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .header-logo {
             display: flex;
             align-items: center;
-            position: absolute;
-            left: 20px; /* Menempatkan logo di kiri */
-        }
-        .header-logo img {
-            width: 50px; /* Sesuaikan ukuran logo */
-            margin-right: 10px; /* Spasi antara logo dan teks */
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 36px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 100px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            flex-grow: 1;
-        }
-        .btn-container {
-            display: flex;
             justify-content: center;
-            margin-top: 50px;
-            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
+
+        .header-logo img {
+            width: 50px; 
+            margin-right: 15px;
+        }
+
+        .header-logo h1 {
+            font-size: 28px; 
+            font-weight: bold;
+            color: #00BFFF;
+            margin: 0;
+        }
+
+        .btn-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 20px; 
+            margin-top: 30px;
+            width: 100%;
+        }
+
         .btn {
-            padding: 15px 30px;
-            font-size: 16px;
-            background-color: #7b1616;
+            padding: 16px 30px;
+            font-size: 16px; 
+            background-color: #00BFFF;
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            margin: 10px;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            min-width: 250px;
         }
+
         .btn:hover {
-            background-color: #e60000;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #1E90FF;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
+
         .btn i {
-            font-size: 20px;
+            margin-right: 10px; 
         }
-        .logout-form {
-            display: inline;
+
+        .logout-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
         }
+
+        .logout-btn {
+            background-color: #FF6347;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn:hover {
+            background-color: #FF4500;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-btn i {
+            margin-right: 10px;
+        }
+
         .footer {
-            background-color: #7b1616;
+            background-color: #87CEEB;
             color: white;
             text-align: center;
-            padding: 20px;
-            /* border-top: 5px solid #e60000; */
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
         }
+
         .footer p {
             margin: 0;
             font-size: 14px;
         }
     </style>
+
+    <!-- Menambahkan link CDN Font Awesome yang benar -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<div class="header">
-    <div class="header-logo">
-        <img src="{{ asset('storage/images/logopinjam.png') }}" alt="TechLend Logo">
-        <h2>TechLand</h2>
+    <div class="container">
+        <div class="header-logo">
+            <img src="{{ asset('storage/images/logopinjam.png') }}" alt="TechLend Logo">
+            <h1>Admin Dashboard</h1>
+        </div>
+
+        <div class="btn-container">
+            <a href="{{ route('data.index_admin') }}" class="btn"><i class="fas fa-clipboard-list"></i> Data Pinjam</a>
+            <a href="{{ route('pc.index') }}" class="btn"><i class="fas fa-desktop"></i> Data PC</a>
+            <a href="{{ route('admin.konfirmasi.index') }}" class="btn"><i class="fas fa-undo-alt"></i> Data Pengembalian</a>
+        </div>
+
+        <div class="logout-container">
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                @csrf
+                <a href="#" class="logout-btn" onclick="this.closest('form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </form>
+        </div>
     </div>
-    <h1>Admin Dashboard</h1>
-</div>
-
-<div class="container">
-    <div class="btn-container">
-        <a href="{{ route('data.index_admin') }}" class="btn"><i class="fas fa-clipboard-list"></i> Data Pinjam</a>
-        <a href="{{ route('pc.index') }}" class="btn"><i class="fas fa-desktop"></i> Data PC</a>
-        <form action="{{ route('logout') }}" method="POST" class="logout-form">
-            @csrf
-            <button type="submit" class="btn"><i class="fas fa-power-off"></i> Logout</button>
-        </form>
-    </div>    
-</div>
-
-
-{{-- <div class="footer">
-    <p>&copy; 2024 Admin Dashboard | All Rights Reserved --}}
+</body>
+</html>

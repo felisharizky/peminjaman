@@ -10,17 +10,18 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background: linear-gradient(to bottom, #E0F7FA, #B2EBF2); /* Mengubah kombinasi warna menjadi lebih cerah */
+            background-color: #87CEEB;
             font-family: 'Poppins', sans-serif;
             height: 100vh;
             display: flex;
-            border-radius: 10px;
             justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
             flex-direction: column;
+            border-radius: 10px;
         }
 
         .wave {
@@ -29,80 +30,81 @@
             left: 0;
             width: 100%;
             height: 50%;
-            background-color: #90C8E8;
+            background-color: #87CEEB;
             z-index: 0;
-            border-radius: 10px 10px 0 0; /* Tumpul di bagian atas */
+            border-radius: 10px 10px 0 0;
         }
 
         .welcome-container {
             display: flex;
             flex-direction: row;
             align-items: center;
-            text-align: left;
-            background-color: #FFFFFF; /* Latar belakang putih */
-            max-width: 1200px;
-            width: 100%;
-            min-height: 700px;
-            padding: 90px;
+            background-color: #FFFFFF;
+            max-width: 800px;
+            width: 90%;
+            min-height: 500px;
+            padding: 40px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            z-index: 10;
+            z-index: 1;
             animation: slideUp 1s ease-out forwards;
-            position: relative;
-            border-radius: 20px; /* Sudut tumpul */
-            overflow: hidden; /* Agar elemen latar belakang tidak keluar dari container */
+            border-radius: 20px;
+            overflow: hidden;
+            flex-wrap: wrap;
+            margin-top: 100px; 
         }
 
         .background-decoration {
-            position: absolute; /* Elemen latar belakang di dalam container */
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             background-image: radial-gradient(circle, rgba(173, 216, 230, 0.3) 0%, rgba(135, 206, 235, 0.3) 100%);
-            z-index: -1; /* Menempatkan di belakang konten lainnya */
-            border-radius: 20px; /* Sudut tumpul yang sama dengan container */
+            z-index: -1;
+            border-radius: 20px;
         }
 
         .welcome-content {
-            flex: 1; /* Mengambil ruang di sebelah kiri */
+            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Menempatkan konten di tengah secara vertikal */
-            align-items: center; /* Rata tengah secara horizontal */
-            padding-right: 30px; /* Menambahkan padding kanan untuk menjauhkan konten dari gambar */
-            text-align: center; /* Rata tengah untuk teks */
+            justify-content: center;
+            align-items: center;
+            padding-right: 20px;
+            text-align: center;
         }
 
         .slogan {
-            margin: 0; /* Menghilangkan margin untuk menjaga posisi */
+            margin: 0;
             font-size: 22px;
             color: #555;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .image-container {
-            flex: 1; /* Mengambil ruang di sebelah kanan */
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding-left: 20px; /* Menambahkan padding kiri untuk menjauhkan gambar dari konten */
+            padding-left: 20px;
         }
 
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px; /* Mengurangi jarak antar logo */
-            position: absolute; /* Mengatur posisi logo */
-            top: 20px; /* Jarak dari atas halaman */
-            right: 20px; /* Jarak dari kanan halaman */
-            z-index: 10;
+            gap: 10px;
+            position: absolute;
+            top: 20px; 
+            right: 20px;
+            z-index: 2; 
+            padding: 10px;
         }
 
         .logo-container img {
-            width: 70px; /* Memperkecil ukuran logo */
+            width: 60px;
             height: auto;
-            border-radius: 10px; /* Menghaluskan sudut logo */
+            border-radius: 10px;
             filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
             transition: transform 0.3s ease;
         }
@@ -113,48 +115,50 @@
 
         .welcome-container h1 {
             font-family: 'Pacifico', cursive;
-            font-size: 42px;
+            font-size: 36px;
             color: #007BFF;
-            margin-bottom: 25px;
-            animation: textGlow 1s infinite alternate, textMove 1.5s infinite alternate; /* Tambahkan animasi untuk glow dan bergerak */
+            margin-bottom: 15px;
+            animation: textGlow 1s infinite alternate, textMove 1.5s infinite alternate;
         }
 
         .custom-title {
-            font-size: 50px;
+            font-size: 40px;
             text-align: center;
             line-height: 1.2;
         }
 
         .welcome-container p {
             font-family: 'Arial', sans-serif;
-            font-size: 22px;
+            font-size: 20px;
             color: #555;
-            margin-bottom: 40px;
-            max-width: 800px;
+            margin-bottom: 20px;
+            max-width: 200px;
             line-height: 1.5;
         }
 
         .btn-container {
             display: flex;
             flex-direction: row;
-            gap: 30px;
-            justify-content: center; /* Rata tengah untuk tombol */
-            text-align: center; /* Rata tengah untuk teks */
-            margin-top: 20px;
+            gap: 20px;
+            justify-content: center;
+            text-align: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
         }
 
         .btn {
             background: linear-gradient(135deg, #007BFF, #0056b3);
             color: white;
-            padding: 18px 60px;
+            padding: 15px 50px; 
             border: none;
             border-radius: 12px;
             cursor: pointer;
             text-decoration: none;
-            font-size: 20px;
+            font-size: 18px; 
             font-weight: bold;
             transition: all 0.3s ease;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            width: 300px;
         }
 
         .btn:hover {
@@ -182,51 +186,65 @@
         @media (max-width: 768px) {
             .welcome-container {
                 flex-direction: column;
-                padding: 30px;
+                padding: 20px;
+                margin-top: 150px;
             }
+
             .logo-container {
-                flex-direction: column;
+                position: absolute;
+                flex-direction: row;
                 gap: 10px;
+                top: 10px; 
+                left: 50%; 
+                transform: translateX(-50%); 
+                padding: 0;
+                z-index: 2;
             }
+
             .welcome-container h1 {
-                font-size: 36px;
+                font-size: 28px;
             }
+
             .welcome-container p {
-                font-size: 18px;
+                font-size: 16px;
             }
+
             .image-container img {
-                max-width: 250%;
+                max-width: 80%;
                 height: auto;
             }
+
             .btn {
                 font-size: 18px;
-                padding: 15px 30px;
+                padding: 15px 40px;
+                width: 100%; 
             }
         }
 
         .image-container img {
-            max-width: 100%; /* Mengatur gambar agar tidak melebihi lebar container */
+            max-width: 100%;
             height: auto;
-            border-radius: 20px; /* Sudut tumpul pada gambar */
+            border-radius: 20px;
         }
     </style>
 </head>
 <body>
     <div class="wave"></div>
+
     <div class="logo-container">
         <img src="{{ asset('storage/images/LogoPPLG.png') }}" alt="Logo PPLG">
         <img src="{{ asset('storage/images/logopinjam.png') }}" alt="Logo Pinjam">
         <img src="{{ asset('storage/images/LogoNeskar.png') }}" alt="Logo Neskar">
     </div>
+
     <div class="welcome-container">
-        <div class="background-decoration"></div> <!-- Elemen latar belakang -->
+        <div class="background-decoration"></div>
         <div class="welcome-content">
             <h1 class="custom-title">
                 Welcome to the <br> TechLand Website
             </h1>
-            <p class="slogan">Adaptive, Creative, Innovative</p> <!-- Menambahkan kelas slogan -->
+            <p class="slogan">Adaptive, Creative, Innovative</p>
             <div class="btn-container">
-                <a href="/register/create" class="btn">REGISTER</a>
                 <a href="/login" class="btn">LOGIN</a>
             </div>
         </div>

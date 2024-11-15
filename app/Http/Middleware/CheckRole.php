@@ -18,14 +18,6 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $role)
     {
-        // \Log::info('CheckRole middleware executed', ['role' => $role]);
-    
-        // if (!auth()->check() || auth()->user()->role !== $role) {
-        //     \Log::warning('Unauthorized access', ['user' => auth()->user()]);
-        //     return redirect()->route('auth.login');
-        // }
-    
-        // return $next($request);
 
         \Log::info('CheckRole middleware executed', ['role' => $role]);
 

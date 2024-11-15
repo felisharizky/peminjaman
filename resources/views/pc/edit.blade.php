@@ -11,7 +11,6 @@
             margin: 0;
             padding: 0;
         }
-        /* Background dengan gradasi dan lingkaran */
         body::before {
             content: '';
             position: absolute;
@@ -35,18 +34,16 @@
             border-radius: 50%;
             z-index: -1;
         }
-        /* Elemen tambahan di bagian kiri atas */
         .extra-element {
             position: absolute;
             top: -50px;
             left: -100px;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(128,0,0,0.6) 30%, transparent 70%);
+            background: radial-gradient(circle, rgba(171, 206, 243, 0.6) 30%, transparent 70%);
             border-radius: 50%;
             z-index: -1;
         }
-        /* Header */
         .header {
             background-color: #87CEEB;
             color: white;
@@ -88,11 +85,11 @@
         }
 
         .back-btn:hover {
-            background-color: #ff4d4d;
+            background-color: #87CEEB;
         }
 
         .container {
-            max-width: 400px; /* Lebar container diatur agar lebih kecil */
+            max-width: 400px;
             margin: 250px auto;
             padding: 20px;
             background-color: white;
@@ -105,7 +102,7 @@
         }
 
         input[type="text"], select {
-            width: 94%; /* Lebar input box dikurangi menjadi 90% */
+            width: 94%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
@@ -129,7 +126,6 @@
 </head>
 <body>
 
-    <!-- Header dengan logo, teks, dan tombol back -->
     <div class="header">
         <div class="header-logo">
             <img src="{{ asset('storage/images/logopinjam.png') }}" alt="Logo Pinjam">
@@ -144,16 +140,13 @@
             @csrf
             @method('PUT')
 
-            <!-- Nama PC -->
             <input type="text" name="nama" value="{{ $pc->nama }}" placeholder="Nama PC" required>
 
-            <!-- Input Hidden untuk Available -->
             <input type="hidden" name="available" value="{{ $pc->available }}">
 
-            <!-- Button Submit -->
             <button type="submit">Simpan Perubahan</button>
         </form>
     </div>
 
 </body>
-</html
+</html>

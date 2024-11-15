@@ -22,6 +22,8 @@
             align-items: center;
             min-height: 100vh;
             position: relative;
+            background-size: cover;
+            background-position: center;
         }
 
         body::before {
@@ -34,6 +36,8 @@
             background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
             border-radius: 50%;
             z-index: -1;
+            background-size: cover;
+            background-position: center;
         }
 
         body::after {
@@ -46,6 +50,8 @@
             background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
             border-radius: 50%;
             z-index: -1;
+            background-size: cover;
+            background-position: center;
         }
 
         .container {
@@ -88,7 +94,7 @@
 
         .form-group.flex-row {
             display: flex;
-            gap: 10px; /* Menambahkan jarak antara input */
+            gap: 10px; 
         }
 
         .form-group.flex-row input {
@@ -111,13 +117,6 @@
         .btn:hover {
             background-color: #93DBFD;
             box-shadow: 0px 8px 20px rgba(30, 144, 255, 0.3);
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 10px;
-            top: 30%;
-            cursor: pointer;
         }
 
         .login-link {
@@ -150,6 +149,52 @@
             height: auto;
             border-radius: 15px;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+                padding: 20px;
+            }
+
+            .form-container {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .illustration {
+                width: 100%;
+                padding: 20px;
+                order: -1; 
+            }
+
+            body::before, body::after {
+                width: 400px; 
+                height: 400px;
+                top: -50px;
+                right: -50px;
+                bottom: -50px;
+                left: -50px;
+            }
+
+            h2 {
+                font-size: 30px; 
+            }
+
+            .form-group input {
+                font-size: 14px; 
+            }
+
+            .btn {
+                padding: 12px;
+                font-size: 16px; 
+            }
+        }
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -160,7 +205,6 @@
 
         <form action="{{ route('register.store') }}" method="POST">
             @csrf
-            <!-- Menambahkan wrapper flex-row -->
             <div class="form-group flex-row">
                 <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
                 <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
@@ -170,16 +214,16 @@
             </div>
             <div class="form-group" style="position: relative;">
                 <input type="password" id="password" name="password" placeholder="Password" required>
-                <span class="toggle-password" onclick="togglePassword('password', 'togglePasswordIcon')">
+                {{-- <span class="toggle-password" onclick="togglePassword('password', 'togglePasswordIcon')">
                     <i id="togglePasswordIcon" class="fas fa-eye-slash"></i>
-                </span>
+                </span> --}}
             </div>
     
             <div class="form-group" style="position: relative;">
                 <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
-                <span class="toggle-password" onclick="togglePassword('password_confirmation', 'togglePasswordConfirmIcon')">
+                {{-- <span class="toggle-password" onclick="togglePassword('password_confirmation', 'togglePasswordConfirmIcon')">
                     <i id="togglePasswordConfirmIcon" class="fas fa-eye-slash"></i>
-                </span>
+                </span> --}}
             </div>
 
             <button class="btn" type="submit">Create Account</button>
@@ -194,23 +238,6 @@
         <img src="{{ asset('storage/images/register.png') }}" alt="Gambar Orang">
     </div>
 </div>
-
-<script>
-    function togglePassword(fieldId, iconId) {
-        const passwordField = document.getElementById(fieldId);
-        const icon = document.getElementById(iconId);
-
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        } else {
-            passwordField.type = "password";
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        }
-    }
-</script>
 
 </body>
 </html>
