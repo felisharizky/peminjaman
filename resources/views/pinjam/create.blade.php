@@ -205,7 +205,7 @@
     <div class="header">
         <div class="header-logo">
             <img src="{{ asset('storage/images/logopinjam.png') }}" alt="TechLend Logo">
-            <h2>TechLand</h2>
+            <h2>TechLend</h2>
         </div>
         <div class="header-buttons">
             <button id="pinjamPcButton" onclick="location.href='/pinjam/create'">Pinjam PC</button>
@@ -223,18 +223,6 @@
         <h1>Pinjam PC</h1>
         <form action="{{ route('pinjam.store') }}" method="POST">
             @csrf
-            <label for="nama">Nama</label>
-            <input type="text" id="nama" name="nama" required>
-
-            <label for="kelas">Kelas</label>
-            <select id="kelas" name="kelas" required>
-                <option value="X RPL 1">X RPL 1</option>
-                <option value="X RPL 2">X RPL 2</option>
-                <option value="XI RPL 1">XI RPL 1</option>
-                <option value="XI RPL 2">XI RPL 2</option>
-                <option value="XII RPL 1">XII RPL 1</option>
-                <option value="XII RPL 2">XII RPL 2</option>
-            </select>
 
             <label for="pc">Pilih PC</label>
             <select id="pc" name="pc_id" required>
@@ -260,32 +248,25 @@
     </div>
 
     <script>
-        // document.addEventListener('DOMContentLoaded', () => {
-        //     const currentPath = window.location.pathname;
-        //     const pinjamPcButton = document.getElementById('pinjamPcButton');
-        //     const dataPeminjamanButton = document.getElementById('dataPeminjamanButton');
-
-        //     if (currentPath === '/pinjam/create') {
-        //         pinjamPcButton.classList.add('active');
-        //         dataPeminjamanButton.classList.remove('active');
-        //     } else if (currentPath === '/pinjam') {
-        //         dataPeminjamanButton.classList.add('active');
-        //         pinjamPcButton.classList.remove('active');
-        //     }
-        // });
-
-
-      
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const tanggalPinjamInput = document.getElementById('tanggalPinjam');
-        const today = new Date().toISOString().split('T')[0];
-        
-        tanggalPinjamInput.setAttribute('min', today);
-        tanggalPinjamInput.setAttribute('max', today);
-        tanggalPinjamInput.value = today;
-    });
-
-        
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPath = window.location.pathname;
+            const pinjamPcButton = document.getElementById('pinjamPcButton');
+            const dataPeminjamanButton = document.getElementById('dataPeminjamanButton');
+    
+            if (currentPath === '/pinjam/create') {
+                pinjamPcButton.classList.add('active');
+                dataPeminjamanButton.classList.remove('active');
+            } else if (currentPath === '/pinjam') {
+                dataPeminjamanButton.classList.add('active');
+                pinjamPcButton.classList.remove('active');
+            }
+    
+            const tanggalPinjamInput = document.getElementById('tanggalPinjam');
+            const today = new Date().toISOString().split('T')[0];
+            tanggalPinjamInput.setAttribute('min', today); 
+            tanggalPinjamInput.setAttribute('max', '2025-12-31'); 
+            tanggalPinjamInput.value = today; 
+        });
     </script>
 </body>
 </html>

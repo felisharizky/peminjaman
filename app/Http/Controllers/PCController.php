@@ -8,15 +8,19 @@ use Illuminate\Http\Request;
 
 class PCController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-         $pcs = PC::all(); 
-        return view('pc.index', compact('pcs')); 
-    }
-   
-    public function create()
-    {
-        return view('pc.create');
+        $status = $request->input('status');
+    
+        if ($status === '1') {
+            $pcs = PC::where('available', true)->paginate(10);
+        } elseif ($status === '0') {
+            $pcs = PC::where('available', false)->paginate(10);
+        } else {
+            $pcs = PC::paginate(10); // Menampilkan semua jika tidak ada filter
+        }
+    
+        return view('pc.index', compact('pcs'));
     }
 
     

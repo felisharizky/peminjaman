@@ -5,22 +5,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+
 class RegisterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
         return view('auth.register');
     }
 
@@ -29,13 +21,13 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        //
         // Validasi input
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'kelas' => 'required|string', // Menambahkan validasi untuk kolom kelas
         ]);
 
         // Jika validasi gagal
@@ -45,19 +37,18 @@ class RegisterController extends Controller
                 ->withInput();
         }
 
-        // Membuat user baru dengan role default 'user'
+        // Membuat user baru dengan role default 'user' dan kolom 'kelas'
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'user', // Role 'user' ditetapkan di sini
+            'kelas' => $request->kelas, // Menambahkan kolom 'kelas'
         ]);
 
         // Redirect ke halaman setelah login
         return redirect()->route('auth.login')->with('success', 'Registration successful!');
-    
-    
     }
 
     /**

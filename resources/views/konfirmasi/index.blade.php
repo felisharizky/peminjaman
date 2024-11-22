@@ -225,8 +225,9 @@
                 @else
                     @foreach($konfirmasis as $konfirmasi)
                         <tr>
-                            <td>{{ $konfirmasi->pinjam->nama }}</td>
-                            <td>{{ $konfirmasi->pinjam->kelas }}</td>
+                            <td>{{ $konfirmasi->pinjam->user->first_name }} {{ $konfirmasi->pinjam->user->last_name }}</td>
+                            <td>{{ $konfirmasi->pinjam->user->kelas }}</td>
+                            
                             <td>{{ $konfirmasi->pinjam->pc->nama }}</td>
                             <td>
                                 @if($konfirmasi->pinjam->kelengkapan)
@@ -255,6 +256,11 @@
                 @endif
             </tbody>
         </table>
+        <div class="pagination-container">
+            <ul class="pagination">
+                {{$konfirmasis->links('pagination::bootstrap-4') }}
+            </ul>
+        </div>
     </div>
 </div>
 

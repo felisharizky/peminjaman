@@ -12,37 +12,17 @@
             padding: 0;
         }
 
-        body::before, body::after, .extra-element {
-            content: '';
-            position: absolute; 
-            border-radius: 50%;
-            z-index: -1;
-        }
-        body::before {
-            top: -100px; right: -150px;
-            width: 800px; height: 800px;
-            background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
-        }
-        body::after {
-            bottom: -100px; left: -150px;
-            width: 600px; height: 600px;
-            background: linear-gradient(135deg, #87CEEB 30%, #ffffff 70%);
-        }
-        .extra-element {
-            top: -50px; left: -100px;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(128,0,0,0.6) 30%, transparent 70%);
-        }
-        
         .header {
             background-color: #87CEEB;
             color: white;
-            padding: 2px 2px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
         }
         .header-logo {
@@ -84,16 +64,11 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 30px;
-            min-width: 800px;
-            table-layout: auto; 
-            margin: 0 auto;
         }
         th, td {
             border: 1px solid #888;
             padding: 12px;
             text-align: left;
-            white-space: nowrap; 
-            word-wrap: break-word; 
         }
         th {
             background-color: #87CEEB;
@@ -101,8 +76,6 @@
         }
         td {
             background-color: #f9f9f9;
-            color: #000;
-            height: 20px;
         }
 
         .filter-form {
@@ -110,6 +83,7 @@
             margin-bottom: 20px;
         }
         .filter-form input[type="date"],
+        .filter-form select,
         .filter-form button {
             padding: 8px;
             margin: 5px;
@@ -118,39 +92,31 @@
 
         @media (max-width: 768px) {
             .header {
-                flex-direction: row;
-                justify-content: space-between;
+                flex-direction: column;
                 align-items: center;
             }
-            .header-logo h2 {
-                font-size: 18px;
+            .header-logo img {
+                height: 30px;
             }
             .container {
                 width: 100%;
-                margin-top: 100px;
                 padding: 20px;
             }
             table, th, td {
                 font-size: 14px;
                 padding: 8px;
             }
-            .header-logo img {
-                height: 30px;
-            }
         }
 
         @media (max-width: 480px) {
-            th, td {
-                padding: 6px;
-            }
             .filter-form input[type="date"],
+            .filter-form select,
             .filter-form button {
                 font-size: 14px;
                 padding: 6px;
             }
-            table {
-                min-width: 100%;
-                overflow-x: scroll; 
+            th, td {
+                padding: 6px;
             }
         }
     </style>
@@ -173,6 +139,16 @@
         <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}">
         <label for="end_date">Sampai Tanggal:</label>
         <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}">
+        
+        <label for="status">Status Konfirmasi:</label>
+        <select id="status" name="status">
+            <option value="">Semua</option>
+            <option value="dipinjam" {{ request('status') == 'dipinjam' ? 'selected' : '' }}>Dipinjam</option>
+            <option value="terkonfirmasi" {{ request('status') == 'terkonfirmasi' ? 'selected' : '' }}>Terkonfirmasi</option>
+            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+        </select>
+
         <button type="submit" class="back-btn">Filter</button>
     </form>
 
@@ -193,8 +169,8 @@
             @foreach($pinjams as $pinjam)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $pinjam->nama }}</td>
-                <td>{{ $pinjam->kelas }}</td>
+                <td>{{ $pinjam->user->first_name }} {{ $pinjam->user->last_name }}</td>
+                <td>{{ $pinjam->user->kelas }}</td>
                 <td>{{ $pinjam->pc->nama }}</td>
                 <td>
                     @if($pinjam->kelengkapan)
@@ -210,7 +186,11 @@
             @endforeach
         </tbody>
     </table>
+    <div class="pagination-container">
+        <ul class="pagination">
+            {{$pinjams->links('pagination::bootstrap-4') }}
+        </ul>
+    </div>
 </div>
-
 </body>
 </html>

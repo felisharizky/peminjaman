@@ -84,7 +84,7 @@
             position: relative; 
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px;
             font-size: 15px;
@@ -195,6 +195,15 @@
                 padding: 10px;
             }
         }
+
+        .form-group .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
@@ -209,21 +218,29 @@
                 <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
                 <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
             </div>
+
+            <div class="form-group">
+                <select id="kelas" name="kelas" required>
+                    <option value="X RPL 1">X RPL 1</option>
+                    <option value="X RPL 2">X RPL 2</option>
+                    <option value="XI RPL 1">XI RPL 1</option>
+                    <option value="XI RPL 2">XI RPL 2</option>
+                    <option value="XII RPL 1">XII RPL 1</option>
+                    <option value="XII RPL 2">XII RPL 2</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <input type="email" id="email" name="email" placeholder="Email Address" required>
             </div>
             <div class="form-group" style="position: relative;">
                 <input type="password" id="password" name="password" placeholder="Password" required>
-                {{-- <span class="toggle-password" onclick="togglePassword('password', 'togglePasswordIcon')">
-                    <i id="togglePasswordIcon" class="fas fa-eye-slash"></i>
-                </span> --}}
+                <i class="fas fa-eye-slash toggle-password" onclick="togglePassword('password', this)"></i>
             </div>
     
             <div class="form-group" style="position: relative;">
                 <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
-                {{-- <span class="toggle-password" onclick="togglePassword('password_confirmation', 'togglePasswordConfirmIcon')">
-                    <i id="togglePasswordConfirmIcon" class="fas fa-eye-slash"></i>
-                </span> --}}
+                <i class="fas fa-eye-slash toggle-password" onclick="togglePassword('password_confirmation', this)"></i>
             </div>
 
             <button class="btn" type="submit">Create Account</button>
@@ -238,6 +255,21 @@
         <img src="{{ asset('storage/images/register.png') }}" alt="Gambar Orang">
     </div>
 </div>
+
+<script>
+    function togglePassword(inputId, iconElement) {
+        const inputField = document.getElementById(inputId);
+        if (inputField.type === 'password') {
+            inputField.type = 'text';
+            iconElement.classList.remove('fa-eye-slash');
+            iconElement.classList.add('fa-eye');
+        } else {
+            inputField.type = 'password';
+            iconElement.classList.remove('fa-eye');
+            iconElement.classList.add('fa-eye-slash');
+        }
+    }
+</script>
 
 </body>
 </html>

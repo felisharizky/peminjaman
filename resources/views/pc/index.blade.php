@@ -11,6 +11,8 @@
             margin: 0;
             padding: 0;
         }
+
+        /* Background dengan gradasi dan lingkaran */
         body::before {
             content: '';
             position: absolute;
@@ -22,6 +24,7 @@
             border-radius: 50%;
             z-index: -1;
         }
+
         body::after {
             content: '';
             position: absolute;
@@ -33,7 +36,8 @@
             border-radius: 50%;
             z-index: -1;
         }
-        
+
+        /* Header */
         .header {
             background-color: #87CEEB;
             color: white;
@@ -41,13 +45,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed; 
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000; 
+            z-index: 1000;
         }
-        
+
         .header-logo {
             display: flex;
             align-items: center;
@@ -68,9 +72,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .back-btn:hover {
-            background-color: #005f73;
-        }
 
         .container {
             max-width: 1000px;
@@ -83,6 +84,20 @@
 
         h2 {
             text-align: center;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-container select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
         }
 
         table {
@@ -105,60 +120,104 @@
             color: white;
         }
 
-        .btn {
-            padding: 5px 10px;
-            background-color: #ff4d4d;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background-color: #d00000;
-        }
-
+        /* Tombol Update (warna biru muda) */
         .edit-btn {
             padding: 5px 10px;
-            background-color: #007bff;
+            background-color: #14a7e0;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            text-decoration: none;
         }
+
         .edit-btn:hover {
-            background-color: #0056b3;
+            background-color: #5aaed7;
+        }
+
+        .edit-btn:active {
+            background-color: #4a9dbb;
+        }
+
+        /* Tombol Delete (warna merah) */
+        .btn {
+            padding: 5px 10px;
+            background-color: #e60000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #d60000;
+        }
+
+        .btn:active {
+            background-color: #b50000;
         }
 
         .add-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            width: 200px;
-            padding: 12px;
-            background-color: #0096c7;
+            margin-bottom: 20px;
+            display: block;
+            width: 150px;
+            text-align: center;
+            padding: 10px;
+            background-color: #14a7e0;
             color: white;
             border: none;
-            border-radius: 20px;
+            border-radius: 4px;
             text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .add-btn:hover {
-            background-color: #005f73;
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            background-color: #87CEEB;
         }
 
-        .add-btn span {
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .pagination {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            gap: 10px;
+        }
+
+        .pagination li {
             display: inline-block;
-            transition: transform 0.3s;
         }
 
-        .add-btn:hover span {
-            transform: translateX(3px);
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #007bff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .pagination a:hover,
+        .pagination a:focus {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .pagination .active span {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+            font-weight: bold;
+            cursor: default;
         }
     </style>
 </head>
@@ -167,17 +226,25 @@
 <div class="header">
     <div class="header-logo">
         <img src="{{ asset('storage/images/logopinjam.png') }}" alt="TechLend Logo">
-        <h2>TechLand</h2>
+        <h2>TechLend</h2>
     </div>
     <a href="{{ route('dashboard.index') }}" class="back-btn">Back</a>
 </div>
 
 <div class="container">
     <h2>Daftar PC</h2>
-    
-    <a href="{{ route('pc.create') }}" class="add-btn">
-        <span>➕</span> Tambah PC
-    </a>
+
+    <!-- Filter dan Tambah PC -->
+    <div class="filter-container">
+        <a href="{{ route('pc.create') }}" class="add-btn">Tambah PC</a>
+        <form action="{{ route('pc.index') }}" method="GET">
+            <select name="status" onchange="this.form.submit()">
+                <option value="">Semua</option>
+                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Tersedia</option>
+                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Tidak Tersedia</option>
+            </select>
+        </form>
+    </div>
     
     <table>
         <thead>
@@ -195,7 +262,9 @@
                 <td>{{ $pc->nama }}</td>
                 <td>{{ $pc->available ? 'Tersedia' : 'Tidak Tersedia' }}</td>
                 <td>
+                    <!-- Button Update -->
                     <a href="{{ route('pc.edit', $pc->id) }}" class="edit-btn">Update</a>
+                    <!-- Button Hapus -->
                     <form action="{{ route('pc.destroy', $pc->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
@@ -206,6 +275,13 @@
             @endforeach
         </tbody>
     </table>
+    
+    <!-- Pagination di dalam container -->
+    <div class="pagination-container">
+        <ul class="pagination">
+            {{ $pcs->links('pagination::bootstrap-4') }}
+        </ul>
+    </div>
 </div>
 
 </body>

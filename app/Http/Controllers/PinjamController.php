@@ -14,7 +14,7 @@ class PinjamController extends Controller
      */
     public function index()
     {
-        $pinjams = Pinjam::with('konfirmasi')->get();
+        $pinjams = Pinjam::with('konfirmasi')->paginate(10);
         return view('pinjam.index', compact('pinjams'));
     }
 
@@ -23,52 +23,49 @@ class PinjamController extends Controller
      */
     public function create()
     {
-        $pcs = PC::where('available', true)->get();
+        $existingPinjam = Pinjam::where('user_id', auth()->id())
+            ->whereNull('tanggalKembali')
+            ->exists();
 
+        if ($existingPinjam) {
+            return redirect()->route('pinjam.index')->with('error', 'Anda tidak dapat meminjam PC baru sebelum mengembalikan PC yang sedang dipinjam.');
+        }
+
+        $pcs = PC::where('available', true)->get();
         return view('pinjam.create', compact('pcs'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    // 
-    
     public function store(Request $request)
     {
-    // ngevalidasi data
-    $validatedData = $request->validate([
-        'nama' => 'required|string|max:255',
-        'kelas' => 'required|string|max:255',
-        'pc_id' => 'required|exists:pcs,id', // ngvalidasi biar pc ada di db
-        'kelengkapan' => 'required|array',
-        'tanggalPinjam' => 'required|date',
-    ]);
+        $existingPinjam = Pinjam::where('user_id', auth()->id())
+            ->whereNull('tanggalKembali')
+            ->exists();
 
-    // ngeupdate status pc jd ga tersedia
-    $pc = PC::find($validatedData['pc_id']);
-    $pc->available = false;
-    $pc->save();
+        if ($existingPinjam) {
+            return redirect()->route('pinjam.index')->with('error', 'Anda tidak dapat meminjam PC baru sebelum mengembalikan PC yang sedang dipinjam.');
+        }
 
-      // Simpan data peminjaman
-      $pinjam = new Pinjam();
-      $pinjam->nama = $validatedData['nama'];
-      $pinjam->kelas = $validatedData['kelas'];
-      $pinjam->pc_id = $validatedData['pc_id'];
-      $pinjam->kelengkapan = json_encode($validatedData['kelengkapan']); // Simpan kelengkapan sebagai JSON
-      $pinjam->tanggalPinjam = $validatedData['tanggalPinjam'];
-      $pinjam->user_id = auth()->id(); // Jika ada, simpan user id
-      $pinjam->save();
+        $validatedData = $request->validate([
+            'pc_id' => 'required|exists:pcs,id',
+            'kelengkapan' => 'required|array',
+            'tanggalPinjam' => 'required|date',
+        ]);
 
-    return redirect()->route('pinjam.index')->with('success', 'PC berhasil dipinjam.');
-}
+        $pc = PC::find($validatedData['pc_id']);
+        $pc->available = false; 
+        $pc->save();
 
+        $pinjam = new Pinjam();
+        $pinjam->pc_id = $validatedData['pc_id'];
+        $pinjam->kelengkapan = json_encode($validatedData['kelengkapan']);
+        $pinjam->tanggalPinjam = $validatedData['tanggalPinjam'];
+        $pinjam->user_id = auth()->id(); 
+        $pinjam->save();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('pinjam.index')->with('success', 'PC berhasil dipinjam.');
     }
 
     /**
@@ -76,60 +73,61 @@ class PinjamController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $pinjam = Pinjam::findOrFail($id);
 
         if ($pinjam->user_id != auth()->user()->id) {
-            abort(403, 'Anda tidak berhak mengupdate data ini.');
+            abort(403, 'Anda tidak berhak mengedit data ini.');
         }
 
-        return view('pinjam.edit', compact('pinjam'));
+        $pcs = PC::where('available', true)->get();
+
+        return view('pinjam.edit', compact('pinjam', 'pcs'));
     }
 
     /**
-     * Update the specified resource in storage..
+     * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-
         $pinjam = Pinjam::findOrFail($id);
 
-        // Pastikan hanya user yang memiliki peminjaman bisa mengupdate data mereka
         if ($pinjam->user_id != auth()->user()->id) {
             abort(403, 'Anda tidak berhak mengupdate data ini.');
         }
 
-        $pinjam->tanggalKembali = $request->tanggalKembali;
+        $validatedData = $request->validate([
+            'tanggalKembali' => 'required|date',
+        ]);
+
+        $pinjam->tanggalKembali = $validatedData['tanggalKembali'];
         $pinjam->save();
 
         Konfirmasi::updateOrCreate(
             ['pinjam_id' => $pinjam->id],
-            ['tanggal_kembali' => $request->tanggalKembali, 'status' => 'pending']
+            ['tanggal_kembali' => $validatedData['tanggalKembali'], 'status' => 'pending']
         );
-        // ngembalin status PC jd tersedia lg 
-        $pc = \App\Models\PC::find($pinjam->pc_id);
+
+        $pc = PC::find($pinjam->pc_id);
         $pc->available = true;
         $pc->save();
 
         return redirect()->route('pinjam.index')->with('success', 'Data peminjaman berhasil diupdate.');
-    
-}
+    }
 
+    /**
+     * Store updated return date and mark the PC as available.
+     */
     public function updateTanggalKembali(Request $request, string $id)
     {
-        // Validasi input
         $validatedData = $request->validate([
-            'tanggalKembali' => 'required|date', // Pastikan input tanggal valid
+            'tanggalKembali' => 'required|date',
         ]);
 
-        // Cari data pinjaman berdasarkan id
         $pinjam = Pinjam::findOrFail($id);
 
-        // Update tanggal kembali
         $pinjam->tanggalKembali = $validatedData['tanggalKembali'];
         $pinjam->save();
 
-        // Ubah status PC menjadi tersedia kembali
         $pc = PC::findOrFail($pinjam->pc_id);
         $pc->available = true;
         $pc->save();
@@ -142,7 +140,12 @@ class PinjamController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        $pinjam = Pinjam::findOrFail($id);
+        $pinjam->delete();
+        $pc = PC::find($pinjam->pc_id);
+        $pc->available = true;
+        $pc->save();
 
+        return redirect()->route('pinjam.index')->with('success', 'Data peminjaman berhasil dihapus.');
+    }
 }

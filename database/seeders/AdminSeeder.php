@@ -18,6 +18,7 @@ class AdminSeeder extends Seeder
         User::create([
             'first_name' => 'Melisa',
             'last_name' => 'Roblox',
+            'kelas' => 'admin_pc',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admincakep'), // Ganti dengan password yang lebih aman
             'role' => 'admin',

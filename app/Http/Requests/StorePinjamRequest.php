@@ -23,8 +23,6 @@ class StorePinjamRequest extends FormRequest
     {
         return [
             //
-            'nama' => 'required|string|max:255',
-            'kelas' => 'required|string|max:50',
             'pc_id' => 'required|exists:pcs,id', // Pastikan pc_id valid dan ada di tabel pcs
             'kelengkapan' => 'required|exists:kelengkapan',
             'tanggalPinjam' => 'required|date',

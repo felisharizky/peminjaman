@@ -9,8 +9,6 @@ class Pinjam extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nama', 
-        'kelas', 
         'pc_id', 
         'kelengkapan',
         'tanggalPinjam', 

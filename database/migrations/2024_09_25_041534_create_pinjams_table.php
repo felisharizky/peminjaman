@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('pinjams', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('kelas');
             $table->foreignId('pc_id')->constrained('pcs')->onDelete('cascade'); // Menambahkan foreign key ke tabel pcs
             $table->string('kelengkapan')->nullable();
             $table->date('tanggalPinjam');
@@ -23,8 +21,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Menambahkan foreign key ke tabel users
             $table->timestamps();
         });
-
-        
     }
 
     /**

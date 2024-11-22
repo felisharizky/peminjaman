@@ -77,7 +77,7 @@ class KonfirmasiController extends Controller
 
     public function index()
         {
-            $konfirmasis = Konfirmasi::with('pinjam')->where('status', 'pending')->get();
+            $konfirmasis = Konfirmasi::with('pinjam')->where('status', 'pending')->paginate(10);
 
             return view('konfirmasi.index', compact('konfirmasis'));
         }
